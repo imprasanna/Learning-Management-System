@@ -81,6 +81,15 @@ const StudentSubjects = () => {
     }
   };
 
+  const isValidURL = (string) => {
+    try {
+      new URL(string);
+      return true;
+    } catch (_) {
+      return false;
+    }
+  };
+
   return (
     <>
       {loading ? (
@@ -127,16 +136,29 @@ const StudentSubjects = () => {
           <Dialog open={openPopup} onClose={() => setOpenPopup(false)}>
             <DialogTitle>Recommended References</DialogTitle>
             <DialogContent>
-              <Typography
-                style={{
-                  color:
-                    referenceText === "No references recommended"
-                      ? "#FF5733"
-                      : "black",
-                }}
-              >
-                {referenceText}
-              </Typography>
+              {isValidURL(referenceText) ? (
+                <Typography>
+                  <a
+                    href={referenceText}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{ color: "#1f1f38", fontWeight: "bold" }}
+                  >
+                    {referenceText}
+                  </a>
+                </Typography>
+              ) : (
+                <Typography
+                  style={{
+                    color:
+                      referenceText === "No references recommended"
+                        ? "#FF5733"
+                        : "black",
+                  }}
+                >
+                  {referenceText}
+                </Typography>
+              )}
             </DialogContent>
             <DialogActions>
               <Button onClick={() => setOpenPopup(false)} color="primary">

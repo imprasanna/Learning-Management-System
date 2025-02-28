@@ -20,7 +20,7 @@ const StudentVideoList = () => {
         setLoader(true);
         try {
           const response = await axios.get(
-            `http://localhost:4000/video/subject/${subjectId}`
+            `${process.env.REACT_APP_BASE_URL}/video/subject/${subjectId}`
           );
           console.log(response.data.data[0].videos);
           setVideos(response.data.data[0].videos || []);

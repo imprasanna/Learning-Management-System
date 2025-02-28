@@ -25,7 +25,7 @@ const ShowSubjects = () => {
   useEffect(() => {
     // Fetch subjects
     axios
-      .get(`http://localhost:4000/TeacherSubject/${teacherId}`)
+      .get(`${process.env.REACT_APP_BASE_URL}/TeacherSubject/${teacherId}`)
       .then((response) => {
         // nothing
       })

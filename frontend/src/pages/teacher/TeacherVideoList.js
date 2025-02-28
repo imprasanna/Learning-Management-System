@@ -43,7 +43,7 @@ const TeacherVideoList = () => {
         setLoader(true);
         try {
           const response = await axios.post(
-            "http://localhost:4000/teacher/video/all",
+            `${process.env.REACT_APP_BASE_URL}/teacher/video/all`,
             { teacherName }
           );
           setVideos(response.data.videos || []);
@@ -71,10 +71,13 @@ const TeacherVideoList = () => {
     if (!deleteID) return;
 
     try {
-      await axios.post("http://localhost:4000/teacher/video/delete", {
-        teacherName,
-        chapterId: deleteID,
-      });
+      await axios.post(
+        `${process.env.REACT_APP_BASE_URL}/teacher/video/delete`,
+        {
+          teacherName,
+          chapterId: deleteID,
+        }
+      );
 
       setVideos((prevVideos) =>
         prevVideos.filter((video) => video._id !== deleteID)
@@ -114,7 +117,7 @@ const TeacherVideoList = () => {
     if (!editingVideo) return;
 
     try {
-      await axios.put("http://localhost:4000/teacher/video", {
+      await axios.put(`${process.env.REACT_APP_BASE_URL}/teacher/video`, {
         teacherName,
         chapterId: editingVideo._id,
         chapter: editedTitle,

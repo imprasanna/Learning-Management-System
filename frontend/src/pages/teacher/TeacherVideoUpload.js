@@ -73,10 +73,13 @@ const TeacherVideoUpload = () => {
         formData.append("chapter", video.chapter);
         formData.append("video", video.video);
 
-        const response = await fetch("http://localhost:4000/teacher/video", {
-          method: "POST",
-          body: formData,
-        });
+        const response = await fetch(
+          `${process.env.REACT_APP_BASE_URL}/teacher/video`,
+          {
+            method: "POST",
+            body: formData,
+          }
+        );
 
         const data = await response.json();
         if (!response.ok) {

@@ -94,7 +94,7 @@ function Result() {
     console.log("calling addReferenceReq");
     try {
       const response = await apiRequest(
-        "http://localhost:4000/addreferences",
+        `${process.env.REACT_APP_BASE_URL}/addreferences`,
         "POST",
         {
           teacherId: teacherId,
@@ -124,7 +124,7 @@ function Result() {
 
   useEffect(() => {
     console.log("Teacher id", teacherId);
-    fetchAllResult("http://localhost:4000/teacher/result", "POST", {
+    fetchAllResult(`${process.env.REACT_APP_BASE_URL}/teacher/result`, "POST", {
       classId: classId,
       subjectId: subjectId,
     });
@@ -135,7 +135,10 @@ function Result() {
     // fetchSubject(`http://localhost:4000/TeacherSubject/${teacherId}`, "GET");
     if (teacherId) {
       console.log("Fetching subject with teacherId:", teacherId);
-      fetchSubject(`http://localhost:4000/TeacherSubject/${teacherId}`, "GET");
+      fetchSubject(
+        `${process.env.REACT_APP_BASE_URL}/TeacherSubject/${teacherId}`,
+        "GET"
+      );
     } else {
       console.log("Skipping fetchSubject because teacherId is undefined");
     }
@@ -152,7 +155,7 @@ function Result() {
   const handleEdit = async (updatedRow) => {
     // console.log("Updating row:", updatedRow);
     const res = await apiRequest(
-      "http://localhost:4000/teacher/result/update",
+      `${process.env.REACT_APP_BASE_URL}/teacher/result/update`,
       "POST",
       {
         rollNum: updatedRow.rollNum,
@@ -174,7 +177,7 @@ function Result() {
 
   const handleDelete = async () => {
     const res = await apiRequest(
-      "http://localhost:4000/teacher/result/delete",
+      `${process.env.REACT_APP_BASE_URL}/teacher/result/delete`,
       "POST",
       { rollNum: selectedDeleteRow, subjectId: subjectId, classId: classId }
     );
@@ -191,7 +194,7 @@ function Result() {
   const handleDownload = async () => {
     try {
       const response = await fetch(
-        "http://localhost:4000/teacher/result/download",
+        `${process.env.REACT_APP_BASE_URL}/teacher/result/download`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

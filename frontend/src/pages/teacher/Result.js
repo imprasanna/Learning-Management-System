@@ -12,7 +12,7 @@ import AddReferenceBox from "../../components/ReferenceDialogBox";
 function Result() {
   const { showErrorSnackbar, showSuccessSnackbar } = useSnackBarController();
   const { currentUser } = useSelector((state) => state.user);
-  console.log(currentUser);
+  // console.log(currentUser);
   const [result, setResult] = useState([]);
   const [error, setError] = useState(null);
   const [classId, setClassId] = useState(

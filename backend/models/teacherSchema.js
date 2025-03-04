@@ -1,55 +1,58 @@
-const mongoose = require("mongoose")
+const mongoose = require("mongoose");
 
-const teacherSchema = new mongoose.Schema({
+const teacherSchema = new mongoose.Schema(
+  {
     name: {
-        type: String,
-        required: true,
+      type: String,
+      required: true,
     },
     email: {
-        type: String,
-        unique: true,
-        required: true,
+      type: String,
+      unique: true,
+      required: true,
     },
     password: {
-        type: String,
-        required: true,
+      type: String,
+      required: true,
     },
     role: {
-        type: String,
-        default: "Teacher"
+      type: String,
+      default: "Teacher",
     },
     school: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'admin',
-        required: true,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "admin",
+      required: true,
     },
     teachSubject: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'subject',
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "subject",
     },
     teachSclass: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'sclass',
-        required: true,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "sclass",
+      required: true,
     },
     resources: {
-        type: [String],
-        default: []
+      type: [[String]], // Now supports an array of arrays of strings
+      default: [[], [], []], // Ensure it starts as an array of three empty arrays
     },
-    attendance: [{
+    attendance: [
+      {
         date: {
-            type: Date,
-            required: true
+          type: Date,
+          required: true,
         },
         presentCount: {
-            type: String,
+          type: String,
         },
         absentCount: {
-            type: String,
-        }
-    }]
-},
+          type: String,
+        },
+      },
+    ],
+  },
+  { timestamps: true }
+);
 
-{ timestamps: true });
-
-module.exports = mongoose.model("teacher", teacherSchema)
+module.exports = mongoose.model("teacher", teacherSchema);

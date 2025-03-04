@@ -241,38 +241,46 @@ const getTeacherSubject = async (req, res) => {
 
 const addReferences = async (req, res) => {
   const { teacherId, resources } = req.body;
-  console.log(teacherId, resources);
+  console.log("Received data:", teacherId, resources);
 
-  // Validate input
-  if (!teacherId || !Array.isArray(resources) || resources.length === 0) {
-    return res
-      .status(400)
-      .json({
-        error: "Invalid input. Ensure teacherId and resources are provided.",
-      });
+  // Validate input format
+  if (
+    !teacherId ||
+    !Array.isArray(resources) ||
+    resources.length !== 3 || // Ensure three groups exist
+    !resources.every(
+      (group) =>
+        Array.isArray(group) &&
+        group.length <= 3 &&
+        group.every((ref) => typeof ref === "string")
+    )
+  ) {
+    return res.status(400).json({
+      error:
+        "Invalid input. Ensure teacherId is provided and resources follow the correct structure.",
+    });
   }
 
   try {
-    // Find the teacher by teacherId
+    // Find teacher by ID
     const teacher = await Teacher.findById(teacherId);
 
     if (!teacher) {
       return res.status(404).json({ error: "Teacher not found" });
     }
 
-    // Replace existing resources with new ones
-    teacher.resources = resources;
+    // Assign the new resources, ensuring it's an array of arrays
+    teacher.resources = resources.map((group) => [...group]);
+
     await teacher.save();
 
-    return res
-      .status(200)
-      .json({
-        status: "success",
-        message: "Resources updated successfully",
-        teacher,
-      });
+    return res.status(200).json({
+      status: "success",
+      message: "Resources updated successfully",
+      teacher,
+    });
   } catch (error) {
-    console.error(error);
+    console.error("Error saving resources:", error);
     return res.status(500).json({ error: "Internal Server Error" });
   }
 };
@@ -292,4 +300,3 @@ module.exports = {
   getTeacherSubject,
   addReferences,
 };
-  
